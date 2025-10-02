@@ -17,6 +17,16 @@ public class SpellCheck {
      * @param dictionary The list of all accepted words.
      * @return String[] of all mispelled words in the order they appear in text. No duplicates.
      */
+    // First code the trie: Need trie class (Node root, Fncs: insert(), lookup()) and Node class (boolean isTerminal, array of Nodes to children. Fncs: isWord() setWord() getNext()
+    // Trie Pseudocode:
+    // Trie for words in dict
+    // Trie for misspelled words
+    // For word in text:
+    //      if not in either mispelled or dict:
+    //          add to misspelled
+    // Return num of misspelled
+
+    // Then for the final solution code the TST (tertiary search trie)
     public String[] checkWords(String[] text, String[] dictionary) {
         ArrayList<String> visited = new ArrayList<>();
         ArrayList<String> words = new ArrayList<>();
