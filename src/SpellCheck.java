@@ -32,12 +32,12 @@ public class SpellCheck {
     //          add to misspelled
     // Return num of misspelled
     public String[] checkWords(String[] text, String[] dictionary) {
-        Trie words = new Trie();
-        for (String word : dictionary) {
-            words.insert(word);
-        }
+        TST words = new TST(dictionary);
+//        for (String word : dictionary) {
+//            words.insert(word);
+//        }
         ArrayList<String> misspelled = new ArrayList<>();
-        Trie seenMisspelled = new Trie();
+        TST seenMisspelled = new TST(null);
 
         for (String word : text) {
             if (!words.lookup(word) && !seenMisspelled.lookup(word)) {

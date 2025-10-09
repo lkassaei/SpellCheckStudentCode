@@ -1,12 +1,13 @@
 public class TST {
     private class Node {
         private boolean isTerminal;
-        private Node[] children;
+        private Node leftChild;
+        private Node middleChild;
+        private Node rightChild;
         private char value;
 
         public Node(char value) {
             this.isTerminal = false;
-            this.children = new Node[3];
             this.value = value;
         }
 
@@ -17,43 +18,71 @@ public class TST {
         public void setWord() {
             this.isTerminal = true;
         }
-
-        public void getNext(Node check, Node compare) {
-            if (check.value < compare.value) {
-                compare.children[0] = check;
-            }
-            else if (check.value == compare.value) {
-                compare.children[1] = check;
-            }
-            else if (check.value > compare.value) {
-                compare.children[2] = check;
-            }
-        }
-
-        public void setNext(char c, Node node) {
-
-        }
     }
 
     private Node root;
 
-    public TST() {
-
+    public TST(String[] data) {
+        if (data != null) {
+            for (String word : data) {
+                insert(word);
+            }
+        }
     }
 
     public void insert(String word) {
-//        Node current = root;
-//        for (int i = 0; i < word.length(); i++) {
-//            char c = word.charAt(i);
-//            current.getNext();
-//            Node next = current;
-//            if () {
-//
-//            }
-//        }
+        if (word == null || word.isEmpty()) {
+            return;
+        }
+        root = insertHelper(root, word, 0);
     }
 
-    public boolean lookup() {
-        return false;
+    private Node insertHelper(Node node, String word, int index) {
+        char c = word.charAt(index);
+        if (node == null) {
+            node = new Node(c);
+        }
+
+        if (c < node.value) {
+            node.leftChild = insertHelper(node.leftChild, word, index);
+        }
+        if (c > node.value) {
+            node.rightChild = insertHelper(node.rightChild, word, index);
+        }
+        else {
+            if (index < word.length() - 1) {
+                node.middleChild = insertHelper(node.middleChild, word, index + 1);
+            }
+            else {
+                node.setWord();
+            }
+        }
+        return node;
+    }
+
+    public boolean lookup(String word) {
+        if (word == null || word.isEmpty()) {
+            return false;
+        }
+        return lookupHelper(root, word, 0);
+    }
+
+    public boolean lookupHelper(Node node, String word, int index) {
+        if (node == null) {
+            return false;
+        }
+        char c = word.charAt(index);
+        if (c < node.value) {
+            return lookupHelper(node.leftChild, word, index);
+        }
+        else if (c > node.value) {
+            return lookupHelper(node.rightChild, word, index);
+        }
+        else {
+            if (index < word.length() - 1) {
+                return lookupHelper(node.middleChild, word, index + 1);
+            }
+            return node.isWord();
+        }
     }
 }

@@ -33,6 +33,7 @@ public class SpellCheckTest {
     @Timeout(value = 600, unit = TimeUnit.MILLISECONDS)
     public void testAlice() {
         setTestData("large", "alice");
+
         assertArrayEquals(badWords, studentSolution.checkWords(textWords, allWords), "Incorrect words returned.");
     }
 
