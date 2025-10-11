@@ -17,34 +17,29 @@ public class SpellCheck {
      * @param dictionary The list of all accepted words.
      * @return String[] of all mispelled words in the order they appear in text. No duplicates.
      */
-    // First code the trie: Need trie class
-    // (Node root, Fncs: insert(), lookup()) and
-    // Node class (boolean isTerminal, array of Nodes to children. Fncs: isWord() setWord() getNext()
-    // HYPHENS
-
-    // Then for the final solution code the TST (tertiary search trie)
-
-    // Trie Pseudocode:
-    // Trie for words in dict
-    // Trie for misspelled words
-    // For word in text:
-    //      if not in either mispelled or dict:
-    //          add to misspelled
-    // Return num of misspelled
     public String[] checkWords(String[] text, String[] dictionary) {
+        // Initialize data structure: Either a TST or Trie
         TST words = new TST(dictionary);
-//        for (String word : dictionary) {
-//            words.insert(word);
-//        }
+        //Trie words = new Trie(dictionary);
+
+        // Create an Array List for misspelled words
         ArrayList<String> misspelled = new ArrayList<>();
+
+        // Create either a Trie or TST for misspelled words that have already been accounted for
+        //Trie seenMisspelled = new Trie(null);
         TST seenMisspelled = new TST(null);
 
+        // Go through each word in the text
         for (String word : text) {
+            // If we could not find the word in the TST and we have not accounted for it being misspelled already
             if (!words.lookup(word) && !seenMisspelled.lookup(word)) {
+                // Add the word to the misspelled list
                 misspelled.add(word);
+                // Mark it as accounted for
                 seenMisspelled.insert(word);
             }
         }
+        // Return the Array List in array form
         return misspelled.toArray(new String[0]);
     }
 }
